@@ -1,9 +1,9 @@
 services:
-  api-server3:
+  server:
     build:
       context: .
       dockerfile: apps/api/Dockerfile
-    image: devlopersabbir/api_3:${VERSION}
+    image: devlopersabbir/server:${VERSION}
     environment:
       - NODE_ENV=${NODE_ENV}
       - PORT=${PORT}
