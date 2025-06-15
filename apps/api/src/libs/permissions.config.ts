@@ -1,4 +1,4 @@
-import { Actions, Resources } from "./permissions/constants";
+import { Actions, Resources } from './permissions/constants';
 
 export function generatePermissionKey(resource: string, action: string) {
   return `${resource.toUpperCase()}:${action.toUpperCase()}`;

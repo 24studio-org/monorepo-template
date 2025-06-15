@@ -1,15 +1,15 @@
-import { sql } from "drizzle-orm";
-import { Pool } from "pg";
-import { drizzle } from "drizzle-orm/node-postgres";
-import * as schema from "./schema";
-import { config } from "dotenv";
-import { expand } from "dotenv-expand";
+import { sql } from 'drizzle-orm';
+import { Pool } from 'pg';
+import { drizzle } from 'drizzle-orm/node-postgres';
+import * as schema from './schema';
+import { config } from 'dotenv';
+import { expand } from 'dotenv-expand';
 
 expand(config());
 const main = async () => {
   try {
     const url = process.env.DATABASE_URL;
-    if (!url) throw new Error("databse url not found!");
+    if (!url) throw new Error('databse url not found!');
     const pool = new Pool({
       connectionString: url,
     });
@@ -64,16 +64,16 @@ const main = async () => {
       `);
     });
 
-    console.info("✅ CLEANING COMPLETED");
+    console.info('✅ CLEANING COMPLETED');
   } catch (error) {
-    console.error("Error clearing database:", error);
+    console.error('Error clearing database:', error);
     throw error;
   }
 };
 
 main()
   .catch((error) => {
-    console.error("Fatal error:", error);
+    console.error('Fatal error:', error);
     process.exit(1);
   })
   .finally(() => process.exit(0));

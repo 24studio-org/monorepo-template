@@ -4,9 +4,9 @@ import {
   Injectable,
   Logger,
   UnauthorizedException,
-} from "@nestjs/common";
-import { Request } from "express";
-import { Observable } from "rxjs";
+} from '@nestjs/common';
+import { Request } from 'express';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class AuthenticationGuard implements CanActivate {
@@ -24,13 +24,13 @@ export class AuthenticationGuard implements CanActivate {
       request.user = payload;
     } catch (err) {
       Logger.error(err);
-      throw new UnauthorizedException("Token not valid");
+      throw new UnauthorizedException('Token not valid');
     }
     return true;
   }
   private extractTokenFromHeader(request: Request): string {
-    const token = request.headers.authorization?.split(" ")[1];
-    if (!token) throw new UnauthorizedException("Token not found");
+    const token = request.headers.authorization?.split(' ')[1];
+    if (!token) throw new UnauthorizedException('Token not found');
     return token;
   }
 }

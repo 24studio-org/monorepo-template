@@ -1,8 +1,8 @@
-import { Body, Controller, Get, Post, Query } from "@nestjs/common";
-import { UserDataTransferObject } from "./dto/user.dto";
-import { UsersService } from "./users.service";
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { UserDataTransferObject } from './dto/user.dto';
+import { UsersService } from './users.service';
 
-@Controller("users")
+@Controller('users')
 export class UsersController {
   constructor(private readonly service: UsersService) {}
 

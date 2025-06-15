@@ -1,8 +1,8 @@
-import { createdAt, primaryId, updatedAt } from "./index";
+import { createdAt, primaryId, updatedAt } from './index';
 
 export const baseSchema = {
-  id: primaryId("id"),
+  id: primaryId('id'),
 
-  createdAt: createdAt("created_at"),
-  updatedAt: updatedAt("updated_at"),
+  createdAt: createdAt('created_at'),
+  updatedAt: updatedAt('updated_at'),
 };

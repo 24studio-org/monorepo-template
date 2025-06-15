@@ -11,7 +11,7 @@ export const requiredString = (fieldName: string) =>
 
 export const requiredSlug = (
   minLength: number = 3,
-  maxLength: number = 100
+  maxLength: number = 100,
 ) => {
   return z
     .string()
@@ -36,7 +36,7 @@ export const requiredUrl = (fieldName: string, isDatabase = true) => {
       .url(`${fieldName} must be a valid URL.`)
       .refine(
         (url) => /^(https?:\/\/)/i.test(url),
-        `${fieldName} must start with http:// or https://.`
+        `${fieldName} must start with http:// or https://.`,
       );
   }
 };
@@ -55,7 +55,7 @@ export const requiredPort = () =>
 // Utility for enum validation with improved error messages
 export const requiredEnum = <T extends readonly [string, ...string[]]>(
   values: T,
-  fieldName: string
+  fieldName: string,
 ) =>
   z.enum(values, {
     required_error: `${fieldName} is required.`,
@@ -92,11 +92,11 @@ export const usernameField = () => {
     .max(20, "Username cannot exceed 20 characters.")
     .regex(
       /^[a-zA-Z0-9_-]+$/,
-      "Username can only contain letters, numbers, underscores, and hyphens."
+      "Username can only contain letters, numbers, underscores, and hyphens.",
     )
     .refine(
       (username) => username.trim() !== "",
-      "Username cannot be empty or just whitespace."
+      "Username cannot be empty or just whitespace.",
     );
 };
 
@@ -111,7 +111,7 @@ export const passwordField = () =>
     .regex(/[0-9]/, "Password must contain at least one digit.")
     .regex(
       /[@$!%*?&]/,
-      "Password must contain at least one special character."
+      "Password must contain at least one special character.",
     );
 
 // Utility for number fields with minimum validation and better error messages
@@ -131,7 +131,7 @@ export const urlField = () =>
     .optional()
     .refine(
       (url) => !url || /^(https?:\/\/)/i.test(url),
-      "If provided, URL must start with http:// or https://."
+      "If provided, URL must start with http:// or https://.",
     );
 
 // ==================== New Utilities =============== //
@@ -151,7 +151,7 @@ export const phoneNumberField = () =>
     .string()
     .regex(
       /^\+?[1-9]\d{1,14}$/,
-      "Phone number must be in E.164 format (e.g., +1234567890)."
+      "Phone number must be in E.164 format (e.g., +1234567890).",
     );
 
 // Utility for date validation
@@ -163,7 +163,7 @@ export const dateField = (fieldName: string) =>
     })
     .refine(
       (val) => !isNaN(Date.parse(val)),
-      `${fieldName} must be a valid date in YYYY-MM-DD format.`
+      `${fieldName} must be a valid date in YYYY-MM-DD format.`,
     );
 
 // Utility for strong password confirmation validation
@@ -174,5 +174,5 @@ export const passwordConfirmationField = (passwordField: z.ZodString) =>
     })
     .refine(
       (value) => value === String(passwordField),
-      "Password confirmation does not match the original password."
+      "Password confirmation does not match the original password.",
     );

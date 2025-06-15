@@ -1,5 +1,5 @@
-import { hash, verify } from "argon2";
-import slug from "slugify";
+import { hash, verify } from 'argon2';
+import slug from 'slugify';
 
 // Function to hash a password
 export async function hashPassword<T extends string>(password: T): Promise<T> {
@@ -13,7 +13,7 @@ export async function comparePassword(
   return await verify(hashed, password);
 }
 
-export function slugify(textContent: string, replacement: "-" | "_" = "-") {
+export function slugify(textContent: string, replacement: '-' | '_' = '-') {
   return slug(textContent, {
     trim: true,
     lower: true,

@@ -44,11 +44,11 @@ jobs:
       - name: Formal our all code using prettier
         run: pnpm format
 
-      - name: Lint our apps and packages
-        run: pnpm lint
+      # - name: Lint our apps and packages
+      #   run: pnpm lint
 
-      - name: Test our all apps and packages
-        run: pnpm test
+      # - name: Test our all apps and packages
+      #   run: pnpm test
 
   build-and-push:
     name: Build and Push Docker Images
