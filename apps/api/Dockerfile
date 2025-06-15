@@ -23,7 +23,7 @@ RUN pnpm run build
 
 FROM node:lts-alpine AS runner
 WORKDIR /app
-ENV NODE_ENV=production
+# it's should be access from the .env file
 COPY --from=builder /app/ .
 
-CMD ["node", "apps/api/dist/main"]
+CMD ["node", "apps/api/dist/src/main"]

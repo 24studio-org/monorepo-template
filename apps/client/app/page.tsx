@@ -1,11 +1,7 @@
-import CreateProduct from "./create-product/create-product";
-
-export const dynamic = "force-dynamic";
-
 export default function Home() {
   return (
     <>
-      <CreateProduct />
+      <h1>hello client</h1>
     </>
   );
 }

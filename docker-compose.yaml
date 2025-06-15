@@ -1,0 +1,19 @@
+services:
+  api-server3:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    image: devlopersabbir/api_3:${VERSION}
+    environment:
+      - NODE_ENV=${NODE_ENV}
+      - PORT=${PORT}
+    ports:
+      - "9000:9000"
+
+  client:
+    build:
+      context: .
+      dockerfile: apps/client/Dockerfile
+    image: devlopersabbir/client:${VERSION}
+    ports:
+      - "8000:8000"

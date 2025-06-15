@@ -1,0 +1,117 @@
+name: Dockerize All Apps & Deployment
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "apps/api/**"
+      - "apps/client/**"
+      - "docker-compose.yaml"
+      - "package.json"
+      - "turbo.json"
+      - "pnpm-lock.yaml"
+      - ".github/workflows/deploy.yaml"
+
+env:
+  REGISTRY: docker.io
+  IMAGE_PREFIX: YOUR_IMAGE_PREFIX
+  DOCKERHUB_USERNAME: YOUR_DOCKER_HUB_USERNAME
+  DOCKERHUB_PASSWORD: YOUR_DOCKER_HUB_PASSWORD
+  VPS_HOST: YOUR_VPS_HOST # 000.00.000.00
+  VPS_USER: YOUR_VPS_USER
+  VPS_PASSWORD: YOUR_VPS_PASSWORD
+
+jobs:
+  battle-test:
+    name: Battle test our all apps
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install pnpm and turbo
+        run: npm install -g pnpm@9.12.2 turbo@2.5.4
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Formal our all code using prettier
+        run: pnpm format
+
+      - name: Lint our apps and packages
+        run: pnpm lint
+
+      - name: Test our all apps and packages
+        run: pnpm test
+
+  build-and-push:
+    name: Build and Push Docker Images
+    needs: battle-test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install pnpm and turbo
+        run: npm install -g pnpm@9.12.2 turbo@2.5.4
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Turbo prune for api, client
+        run: turbo prune --scope=api --scope=client --docker
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # - name: Login to Docker Hub
+      #   uses: docker/login-action@v3
+      #   with:
+      #     username: ${{ env.DOCKERHUB_USERNAME }}
+      #     password: ${{ env.DOCKERHUB_PASSWORD }}
+
+      - name: Build Docker images
+        run: docker compose build
+
+      # - name: Push Docker images to Docker Hub
+      #   run: docker compose push
+
+  deploy:
+    if: false
+    name: Deploy on VPS
+    needs: build-and-push
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install sshpass
+        run: sudo apt-get update && sudo apt-get install -y sshpass
+
+      - name: Copy docker-compose.yaml to VPS
+        run: |
+          sshpass -p '${{ env.VPS_PASSWORD }}' scp -o StrictHostKeyChecking=no docker-compose.yaml ${{ env.VPS_USER }}@${{ env.VPS_HOST }}:/root/docker-compose.yaml
+      - name: Copy .env to VPS
+        run: |
+          sshpass -p '${{ env.VPS_PASSWORD }}' scp -o StrictHostKeyChecking=no .env ${{ env.VPS_USER }}@${{ env.VPS_HOST }}:/root/.env
+
+      - name: SSH into VPS and deploy
+        run: |
+          sshpass -p '${{ env.VPS_PASSWORD }}' ssh -o StrictHostKeyChecking=no ${{ env.VPS_USER }}@${{ env.VPS_HOST }} << 'EOF'
+            docker login -u ${{ env.DOCKERHUB_USERNAME }} -p ${{ env.DOCKERHUB_PASSWORD }}
+            docker-compose pull
+            docker-compose up -d
+          EOF
