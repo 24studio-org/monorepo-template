@@ -1,10 +1,10 @@
 {
-  "name": "api",
+  "name": "server",
   "version": "0.0.1",
   "description": "",
   "author": "",
   "private": true,
-  "license": "UNLICENSED",
+  "license": "MIT",
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
@@ -42,7 +42,7 @@
     "@nestjs/mapped-types": "^2.1.0",
     "@nestjs/schematics": "^10.0.0",
     "@nestjs/testing": "^10.0.0",
-    "@repo/typescript-config": "workspace:*",
+    "@24studio/typescript-config": "workspace:*",
     "@types/express": "^5.0.0",
     "@types/jest": "^29.5.2",
     "@types/node": "^20.3.1",

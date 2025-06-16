@@ -14,8 +14,8 @@
     }
   },
   "devDependencies": {
-    "@repo/eslint-config": "workspace:*",
-    "@repo/typescript-config": "workspace:*",
+    "@24studio/eslint-config": "workspace:*",
+    "@24studio/typescript-config": "workspace:*",
     "@types/eslint": "9.6.1",
     "@types/node": "22.8.2",
     "eslint": "9.13.0",

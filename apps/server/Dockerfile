@@ -3,7 +3,7 @@ FROM node:lts-alpine AS pruner
 WORKDIR /app
 RUN npm install -g turbo
 COPY . .
-RUN turbo prune --scope=api --docker
+RUN turbo prune --scope=server --docker
 
 FROM node:lts-alpine AS installer
 
@@ -24,6 +24,9 @@ RUN pnpm run build
 FROM node:lts-alpine AS runner
 WORKDIR /app
 # it's should be access from the .env file
+# ENV NODE_ENV=production
+# ENV PORT=5000
+# ENV DATABASE_URL=postgresql://neondb_owner:npg_7pDr4QXFfSEJ@ep-ancient-feather-a8kgzxle-pooler.eastus2.azure.neon.tech/neondb?sslmode=require
 COPY --from=builder /app/ .
 
-CMD ["node", "apps/api/dist/src/main"]
+CMD ["node", "apps/server/dist/src/main"]

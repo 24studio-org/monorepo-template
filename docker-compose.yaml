@@ -2,7 +2,7 @@ services:
   server:
     build:
       context: .
-      dockerfile: apps/api/Dockerfile
+      dockerfile: apps/server/Dockerfile
     image: devlopersabbir/server:${VERSION}
     environment:
       - NODE_ENV=${NODE_ENV}
