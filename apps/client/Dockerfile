@@ -11,7 +11,7 @@ WORKDIR /app
 COPY --from=pruner /app/out/json .
 COPY --from=pruner /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
 COPY --from=pruner /app/turbo.json ./turbo.json
-RUN npm install -g pnpm
+RUN npm install -g pnpm@8.15.6
 RUN pnpm install --frozen-lockfile
 
 FROM node:lts-alpine AS builder
